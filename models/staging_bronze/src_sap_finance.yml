@@ -6,7 +6,8 @@ sources:
     database: FINANCE_ANALYTICS_DEV
     schema: BRONZE_RAW_SAP
     tables:
-      - name: SAP_FINANCE_INBOUND
+      - name: 'sap_finance_inbound' # logical name in dbt
+        identifier: 'SAP_FINANCE_INBOUND' # Physical name in snowflake
         description: "Initial landing table for MFT-ingested CSV files containing raw finance transactions."
         columns:
           - name: TRANSACTION_ID
