@@ -6,24 +6,43 @@ sources:
     database: FINANCE_ANALYTICS_DEV
     schema: BRONZE_RAW_SAP
     tables:
-      - name: 'sap_finance_inbound' # logical name in dbt
-        identifier: 'SAP_FINANCE_INBOUND' # Physical name in snowflake
-        description: "Initial landing table for MFT-ingested CSV files containing raw finance transactions."
+      - name: sap_finance_inbound
+        identifier: 'SAP_FINANCE_INBOUND'
         columns:
           - name: TRANSACTION_ID
             description: "The unique identifier for the transaction. Note: Contains duplicates in raw source."
-          
+            tests:
+              - unique:
+                  severity: warn
+                  store_failures: true
+              - not_null:
+                  store_failures: true
+
           - name: TXN_DATE
-            description: "The date the transaction was recorded. Ingested as STRING due to mixed formats (YYYY-MM-DD and MM/DD/YYYY)."
-          
+            description: "Ingested as STRING due to mixed formats (YYYY-MM-DD and MM/DD/YYYY)."
+            tests:
+              - not_null
+
           - name: COMPANY_CODE
             description: "The SAP code representing the legal entity. Some values may be NULL in raw data."
-          
+            tests:
+              - not_null:
+                  severity: warn # Warning because we expect some NULLs to handle in Silver
+                  store_failures: true
+
           - name: ACCOUNT_ID
-            description: "The General Ledger (GL) account number associated with the transaction."
-          
+            description: "The General Ledger (GL) account number."
+            tests:
+              - not_null
+
           - name: POSTED_AMOUNT
-            description: "The financial value of the transaction. Ingested as STRING to preserve SAP-style brackets '()' for negative values."
-          
+            description: "Ingested as STRING to preserve SAP-style brackets '()' for negative values."
+            tests:
+              - not_null
+
           - name: CURRENCY
             description: "The ISO currency code (e.g., USD, EUR)."
+            tests:
+              - accepted_values:
+                  values: ['USD', 'EUR', 'GBP']
+                  quote: true
