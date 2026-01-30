@@ -44,4 +44,5 @@ models:
     intermediate_silver:
       +materialized: table
     marts_gold:
-      +materialized: table
+      +materialized: view # Gold is the presentation layer
+      +schema: GOLD_MART_FINANCE # Gold Schema

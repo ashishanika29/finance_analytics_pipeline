@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: marts_sap_finance
+    description: "Final Gold Mart for SAP Finance reporting. This is the source for the Power BI SAP Finance dashboard."
+    columns:
+      - name: TRANSACTION_ID
+        description: "Unique identifier for the transaction."
+        tests:
+          - unique
+          - not_null
+
+      - name: ENTITY_NAME
+        description: "The legal entity name (mapped from Company Code)."
+        tests:
+          - not_null
+
+      - name: TRANSACTION_DATE
+        description: "The date the transaction was posted."
+        tests:
+          - not_null
+
+      - name: TOTAL_AMOUNT
+        description: "The final cleaned financial amount in local currency."
+        tests:
+          - not_null
