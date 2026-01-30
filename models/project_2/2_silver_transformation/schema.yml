@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: int_customers_cleansed
+    description: "Cleansed and standardized customer data for Project 2"
+    columns:
+      - name: customer_id
+        description: "Primary key for customers"
+        tests:
+          - unique
+          - not_null
+
+  - name: int_orders_cleansed
+    description: "Cleansed and standardized order data for Project 2"
+    columns:
+      - name: order_id
+        description: "Primary key for orders"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Foreign key to customers table"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('int_customers_cleansed')
+              field: customer_id
