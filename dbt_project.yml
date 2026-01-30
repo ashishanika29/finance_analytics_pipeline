@@ -45,4 +45,4 @@ models:
       +materialized: table
     marts_gold:
       +materialized: view # Gold is the presentation layer
-      +schema: GOLD_MART_FINANCE # Gold Schema
+      #+schema: GOLD_MART_FINANCE # Gold Schema

@@ -9,6 +9,9 @@
 
 -- STEP 1: Import the cleaned data from Silver
 -- Use the 'ref' function to create the lineage link
+
+{{ config(schema='GOLD_MART_FINANCE') }}
+
 WITH silver_data AS (
     SELECT * FROM {{ ref('int_sap_finance_cleansed') }}
 ),
