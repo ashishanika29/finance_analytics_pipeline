@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: project_2_source
+    database: DEMO_PROJECT_2
+    schema: BRONZE_STG
+    tables:
+      - name: customers # logical name
+        identifier: 'CUSTOMERS' # physical table name
+      - name: orders # logical name
+        identifier: 'ORDERS' # physical table name

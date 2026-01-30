@@ -45,4 +45,17 @@ models:
       +materialized: table
     marts_gold:
       +materialized: view # Gold is the presentation layer
-      #+schema: GOLD_MART_FINANCE # Gold Schema
+    # --- Project 2.0 Explicit Medallion Setup ---
+    project_2:
+        # 1. Bronze: Usually views because we're just pointing to raw data
+        1_bronze_stg:
+          +materialized: view
+          +schema: BRONZE_STG
+        # 2. Silver: Can be views or tables; mapped to your specific spelling
+        2_silver_transformation:
+          +materialized: table
+          +schema: SILVER_TRANFORMATION
+        # 3. Gold: Always tables for performance in reporting
+        3_gold_analytics:
+          +materialized: table
+          +schema: GOLD_ANALYTICS
