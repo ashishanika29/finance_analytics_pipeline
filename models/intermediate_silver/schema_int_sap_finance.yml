@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: int_sap_finance_cleansed # table name
+    description: "Intermediate Silver table. Deduplicated, standardized, and formatted SAP Finance data."
+    config:
+      materialized: table  # Physical table for better performance in the Gold layer
+    
+    columns:
+      - name: TRANSACTION_ID
+        description: "Primary Key. Cleaned of duplicates via QUALIFY ROW_NUMBER() logic."
+        tests:
+          - unique:
+              severity: error # If this fails, our deduplication SQL logic is broken
+              store_failures: true  # Critical: Catch any 'surviving' duplicates
+          - not_null:
+              severity: error
+              store_failures: true  # Critical: Catch any 'un-coalesced' NULLs
+
+      - name: POSTED_AMOUNT
+        description: "Financial amount converted from string/brackets to a numeric decimal."
+        tests:
+          - not_null:
+              severity: error # We will use COALESCE in the SQL to ensure no NULLs remain
+              store_failures: true  # Critical: Catch any 'un-coalesced' NULLs
+
+      - name: COMPANY_CODE
+        description: "Standardized entity code. Missing values from Bronze are filled with 'UNKNOWN'."
+        tests:
+          - not_null:
+              severity: error
+              store_failures: true  # Helps verify your 'UNKNOWN' fallback worked
+
+      - name: TXN_DATE
+        description: "Standardized Snowflake DATE type (YYYY-MM-DD)."
+        tests:
+          - not_null:
+              severity: error
