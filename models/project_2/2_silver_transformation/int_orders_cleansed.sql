@@ -28,6 +28,8 @@ cleansed_data as (
         coalesce(amount, 0)::decimal(10,2) as order_amount_usd,
         upper(trim(status)) as order_status
     from staging_data
+    -- THE FIX: Only keep orders where the customer exists in our cleansed customer table
+    where customer_id in (select customer_id from {{ ref('int_customers_cleansed') }})
 )
 
 select * from cleansed_data
