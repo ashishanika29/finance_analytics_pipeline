@@ -1,6 +1,6 @@
 {{
     config(
-        materialized='view'
+        materialized='view',
         schema='SILVER_TRANFORMATION'
     )
 }}

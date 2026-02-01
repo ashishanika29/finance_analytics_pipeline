@@ -1,7 +1,7 @@
 
 {{
     config(
-        materialized='view'
+        materialized='view',
         schema='SILVER_INT_FINANCE'
     )
 }}
