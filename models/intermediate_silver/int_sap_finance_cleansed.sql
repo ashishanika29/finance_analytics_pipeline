@@ -11,7 +11,7 @@
 
 {{
     config(
-        materialized='table'
+        materialized='table',
         schema='SILVER_INT_FINANCE'
     )
 }}
