@@ -24,6 +24,7 @@ cleansed_data as (
         customer_id,
         trim(first_name) as first_name,
         trim(last_name) as last_name,
+        trim(first_name) || ' ' || trim(last_name) as customer_name,
         lower(trim(email)) as email,
         signup_date::date as signup_date
     from staging_data

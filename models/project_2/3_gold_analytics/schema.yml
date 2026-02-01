@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: fact_customer_orders
+    description: "The final reporting table for customer order analytics."
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_name
+        description: "Name of the customer associated with the order."
+      - name: order_tier
+        description: "Classification of order value for marketing segmentation."
